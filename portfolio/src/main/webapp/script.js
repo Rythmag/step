@@ -10,14 +10,15 @@ function addRandomGreeting() {
   greetingContainer.innerText = greeting;
 }
 var imageIndex = 1;
-var totalimg = 6;
+var totalimg = 7;
 function randomizeImage(x) {
   // The images directory contains 13 images, so generate a random index between
   // 1 and 13.
   imageIndex += x;
   if(imageIndex > totalimg){
     imageIndex = 1;
-  }else if(imageIndex < 0){
+  }
+  if(imageIndex <= 0){
     imageIndex = totalimg;
   }
   const imgUrl = 'images/img' + imageIndex + '.jpg';

@@ -2,28 +2,43 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>A little about Rythm</title>
+    <title>My portfolio</title>
     <link rel="stylesheet" href="style.css">
     <script src="script.js"></script>
+    
   </head>
   <body>
     <div class="content">
-      <h1>Hey! I'm Rythm.</h1>
+      <h1 id = "vis"></h1>
+      <script>
+        name = prompt("Please tell who you are?","Googler");
+        document.getElementById("vis").innerHTML = "Hey " + name +"! I'm Rythm.";
+      </script>
+      <!-- <h1>Hey! I'm Rythm.</h1> -->
       <p>
-        I'm a STEP intern and I'll be working with the Google Apps team.
+        I'm a STEP intern at Google and I'll be working with the Google Apps team.
+        I'm CSE sophomore at IIT Kanpur. I like dancing and exploring different genres of music.
+        <br>
+
       </p>
       <ul class="bullets">
         <li><a href="resume.html">Resume</a></li>
+        <li><a href="gallery.html">Gallery</a></li>
+        <li><a href="projects.html">Projects</a></li>
       </ul>
     </div>
     <div style="margin-left: 50%; padding-top: 5%;">
       <img src="images/me.jpg" class="circular">
     </div>
-    
-    <ul class="navbar">
+    <div>
+      <p>
+        rythmag@noogler.google.com
+      </p>
+    </div>
+    <ul class="navbar" style="bottom: 0;">
       <li><a href="https://www.facebook.com/agarwal.rythm">Facebook</a></li>
       <li><a href="https://www.linkedin.com/in/rythmag/">LinkedIn</a></li>
-      <li><a href="http://codeforces.com/profile/rythm">codeforces</a></li>
+      <li><a href="https://github.com/Rythmag/">Github</a></li>
       <!-- <li><a href="#about">About</a></li> -->
     </ul>
   </body>
