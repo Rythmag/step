@@ -14,7 +14,6 @@
         name = prompt("Please tell who you are?","Googler");
         document.getElementById("vis").innerHTML = "Hey " + name +"! I'm Rythm.";
       </script>
-      <!-- <h1>Hey! I'm Rythm.</h1> -->
       <p>
         I'm a STEP intern at Google and I'll be working with the Google Apps team.
         I'm CSE sophomore at IIT Kanpur. I like dancing and exploring different genres of music.
@@ -35,7 +34,9 @@
         rythmag@noogler.google.com
       </p>
     </div>
-    <ul class="navbar" style="bottom: 0;">
+    <button style="background-color: #f44336;" onclick="fetchMessage()">get the msg</button>
+    <div id='msgcontainer'></div>
+    <ul class="navbar" style="bottom: 0px; position: fixed;">
       <li><a href="https://www.facebook.com/agarwal.rythm">Facebook</a></li>
       <li><a href="https://www.linkedin.com/in/rythmag/">LinkedIn</a></li>
       <li><a href="https://github.com/Rythmag/">Github</a></li>

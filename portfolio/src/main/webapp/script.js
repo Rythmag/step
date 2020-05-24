@@ -11,9 +11,7 @@ function addRandomGreeting() {
 }
 var imageIndex = 1;
 var totalimg = 7;
-function randomizeImage(x) {
-  // The images directory contains 13 images, so generate a random index between
-  // 1 and 13.
+function changeImage(x) {
   imageIndex += x;
   if(imageIndex > totalimg){
     imageIndex = 1;
@@ -27,7 +25,22 @@ function randomizeImage(x) {
   imgElement.src = imgUrl;
 
   const imageContainer = document.getElementById('random-image-container');
-  // Remove the previous image.
   imageContainer.innerHTML = '';
   imageContainer.appendChild(imgElement);
+}
+
+function fetchMessage(){
+  console.log('fetching msg from server');
+  const msgFromServer = fetch('/data');
+  msgFromServer.then(convertToText);
+}
+function convertToText(msgFromServer){
+  console.log('convert to text');
+  const msgText = msgFromServer.text();
+  msgText.then(addMsgToPage);
+}
+function addMsgToPage(msgText){
+  console.log('adding to page');
+  const msgContainer = document.getElementById('msgcontainer');
+  msgContainer.innerHTML = msgText;
 }
