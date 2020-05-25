@@ -71,13 +71,21 @@ function fetchJson(){
   }).then(function(listItems){
     console.log('adding to page');
     const datacontainer = document.getElementById('msgcontainer');
-    datacontainer.innerHTML = listItems;
-    datacontainer.innerHTML = JSON.stringify( listItems);
+    // datacontainer.innerHTML = listItems;
+    // datacontainer.innerHTML = JSON.stringify( listItems);
     const ulElement = document.createElement('ul');
-    ulElement.appendChild(createListElement( listItems.List[0]) );
-    ulElement.appendChild(createListElement( listItems.List[1]) );
-    ulElement.appendChild(createListElement( listItems.List[2]) );
+    ulElement.appendChild(createListElement( listItems.comments[0]) );
+    ulElement.appendChild(createListElement( listItems.comments[1]) );
+    ulElement.appendChild(createListElement( listItems.comments[2]) );
     datacontainer.appendChild(ulElement);
-  })
-  
+  }) 
+}
+
+function fetchComments(){
+  fetch('/data').then(response => response.json()).then((commentList) =>{
+    const commentContainer = document.getElementById("comment-list");
+    commentList.comments.forEach((line) => {
+      commentContainer.appendChild(createListElement(line));
+    });
+  });
 }

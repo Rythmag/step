@@ -14,24 +14,45 @@
 
 package com.google.sps.servlets;
 import com.google.gson.Gson;
+import com.google.sps.data.CommentList;
 import java.io.IOException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 /** Servlet that returns some example content. TODO: modify this file to handle comments data */
+
+
+
+
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
-  public final class ArrayList{
-    String[] List = {"a","b","c"};
-  }
+  CommentList comments = new CommentList();
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     response.setContentType("application/json;");
-    ArrayList msgs = new ArrayList();
+    // comments.addComment("a");
+    // comments.addComment("b");
+    // comments.addComment("c");s
     Gson gson = new Gson();
-    String json = gson.toJson(msgs);
+    String json = gson.toJson(comments);
     response.getWriter().println(json);
+  }
+
+  @Override
+  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    String comment = getComment(request);
+    comments.addComment(comment);
+    // response.setContentType("text/html");
+    response.sendRedirect("/index.html");
+  }
+
+  private String getComment(HttpServletRequest request){
+    String comment = request.getParameter("comment");
+    // if(comment.length() < 0){
+      // System.err.println("Comment is not valid");
+      // return -1;
+    // }
+    return comment;
   }
 }

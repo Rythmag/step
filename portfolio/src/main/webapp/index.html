@@ -7,14 +7,15 @@
     <script src="script.js"></script>
     
   </head>
-  <body>
+  <body onload="fetchComments()">
     <div class="content">
       <h1 id = "vis"></h1>
-      <script>
-        name = prompt("Please tell who you are?","Googler");
-        document.getElementById("vis").innerHTML = "Hey " + name +"! I'm Rythm.";
-      </script>
+      <!-- <script> -->
+        <!-- name = prompt("Please tell who you are?","Googler"); -->
+        <!-- document.getElementById("vis").innerHTML = "Hey " + name +"! I'm Rythm."; -->
+      <!-- </script> -->
       <p>
+        <h1>Hey Googler. I'm Rythm.</h1>
         I'm a STEP intern at Google and I'll be working with the Google Apps team.
         I'm CSE sophomore at IIT Kanpur. I like dancing and exploring different genres of music.
         <br>
@@ -30,17 +31,29 @@
       <img src="images/me.jpg" class="circular">
     </div>
     <div>
-      <p>
         rythmag@noogler.google.com
-      </p>
+      <!-- <button style="background-color: #f44336;" onclick="fetchJson()">get the msg</button> -->
+    <!-- <div id='msgcontainer'></div> -->
     </div>
-    <button style="background-color: #f44336;" onclick="fetchJson()">get the msg</button>
-    <div id='msgcontainer'></div>
-    <ul class="navbar" style="bottom: 0px; position: fixed;">
-      <li><a href="https://www.facebook.com/agarwal.rythm">Facebook</a></li>
-      <li><a href="https://www.linkedin.com/in/rythmag/">LinkedIn</a></li>
-      <li><a href="https://github.com/Rythmag/">Github</a></li>
-      <!-- <li><a href="#about">About</a></li> -->
-    </ul>
+    <div style="padding-left: 10%; padding-top: 7%;">
+      <form action="/data" method="POST">
+        <label for="comment"><h6>Leave a comment:</h6></label>
+        <input type="text" name="comment">
+        <input type="submit">
+      </form>
+      <div id="comment-container">
+        <ul id="comment-list">
+
+        </ul>
+      </div>
+    </div>
+    <div>
+      <ul class="navbar" style="bottom: 0px; position: fixed;">
+        <li><a href="https://www.facebook.com/agarwal.rythm">Facebook</a></li>
+        <li><a href="https://www.linkedin.com/in/rythmag/">LinkedIn</a></li>
+        <li><a href="https://github.com/Rythmag/">Github</a></li>
+        <!-- <li><a href="#about">About</a></li> -->
+      </ul>
+    </div>
   </body>
 </html>
