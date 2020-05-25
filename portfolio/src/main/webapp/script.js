@@ -40,7 +40,44 @@ function convertToText(msgFromServer){
   msgText.then(addMsgToPage);
 }
 function addMsgToPage(msgText){
-  console.log('adding to page');
+  console.log('adding to page:' + msgText);
   const msgContainer = document.getElementById('msgcontainer');
   msgContainer.innerHTML = msgText;
+}
+function fetchMsgUsingOneFunction(){
+  console.log('arr1');
+  fetch('/data')
+  .then(function(response){
+    console.log('text extracted');
+    return response.text()
+  })
+  .then(function(msgText){
+    console.log('adding to page:' + msgText);
+    const msgContainer = document.getElementById('msgcontainer');
+    msgContainer.innerHTML = msgText;
+  })
+}
+function createListElement(text) {
+  const liElement = document.createElement('li');
+  liElement.innerText = text;
+  return liElement;
+}
+function fetchJson(){
+  console.log('fetching from server')
+  const response = fetch('/data')
+  .then(function(response){
+    console.log('parsing json');
+    return response.json();
+  }).then(function(listItems){
+    console.log('adding to page');
+    const datacontainer = document.getElementById('msgcontainer');
+    datacontainer.innerHTML = listItems;
+    datacontainer.innerHTML = JSON.stringify( listItems);
+    const ulElement = document.createElement('ul');
+    ulElement.appendChild(createListElement( listItems.List[0]) );
+    ulElement.appendChild(createListElement( listItems.List[1]) );
+    ulElement.appendChild(createListElement( listItems.List[2]) );
+    datacontainer.appendChild(ulElement);
+  })
+  
 }
