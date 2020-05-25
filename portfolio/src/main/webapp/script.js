@@ -82,10 +82,28 @@ function fetchJson(){
 }
 
 function fetchComments(){
-  fetch('/data').then(response => response.json()).then((commentList) =>{
+  // confSubmitButton()
+  // .then(
+  fetch('/data')
+  .then(response => response.json())
+  .then((commentList) => {
     const commentContainer = document.getElementById("comment-list");
     commentList.comments.forEach((line) => {
       commentContainer.appendChild(createListElement(line));
     });
   });
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('comment-submit').disabled = true;
+  console.log('disabled at first');
+  document.getElementById('comment-box').onkeyup = () => {
+      if (document.getElementById('comment-box').value.length > 0){
+        console.log('enabling for now');
+        document.getElementById('comment-submit').disabled = false;
+      }else{
+        console.log('disabling again');
+        document.getElementById('comment-submit').disabled = true;
+      }
+  };
+});
