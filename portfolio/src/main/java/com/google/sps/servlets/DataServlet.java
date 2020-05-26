@@ -27,6 +27,8 @@ import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.SortDirection;
+import com.google.appengine.api.users.UserService;
+import com.google.appengine.api.users.UserServiceFactory;
 /** Servlet that returns some example content. TODO: modify this file to handle comments data */
 
 
@@ -35,6 +37,7 @@ import com.google.appengine.api.datastore.Query.SortDirection;
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
   int displayNumber = 10;
+  UserService userService = UserServiceFactory.getUserService();
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     Query query = new Query("Comment").addSort("timestamp", SortDirection.DESCENDING);
@@ -51,7 +54,8 @@ public class DataServlet extends HttpServlet {
       countComments++;
       String statement = (String)entity.getProperty("statement");
       long timestamp = (long)entity.getProperty("timestamp");
-      Comment newComment = new Comment(statement, timestamp);
+      String user = (String)entity.getProperty("user");
+      Comment newComment = new Comment(statement, timestamp, user);
       comments.add(newComment);
     }
 
@@ -69,13 +73,15 @@ public class DataServlet extends HttpServlet {
     if(displayNumber == -1){
       displayNumber = 10;
     }
-    if(comment.length() == 0)
+    if(comment.length() == 0 || !userService.isUserLoggedIn())
     {
       response.sendRedirect("/index.html");
       return;
     }
+    String user = userService.getCurrentUser().getEmail();
     Entity commentEntity = new Entity("Comment");
     commentEntity.setProperty("statement", comment);
+    commentEntity.setProperty("user", user);
     long timestamp = System.currentTimeMillis();
     commentEntity.setProperty("timestamp", timestamp);
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();

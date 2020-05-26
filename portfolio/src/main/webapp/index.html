@@ -7,7 +7,9 @@
     <script src="script.js"></script>
     
   </head>
-  <body onload="fetchComments()">
+  <body onload="showComments()">
+    <div style="width:100%" id="log">
+    </div>
     <div class="content">
       <h1 id = "vis"></h1>
       <!-- <script> -->
@@ -29,23 +31,26 @@
     </div>
     <div style="margin-left: 50%; padding-top: 5%;">
       <img src="images/me.jpg" class="circular">
-      rythmag@noogler.google.com
+      <p style="padding-left: 25%;">rythmag@noogler.google.com</p>
     </div>
-    <div style="padding-left: 10%; padding-top: 7%; width: 60%; float: left;">
-      <form action="/data" method="POST">
-        <label for="comment"><h6>Leave a comment:</h6></label>
+    <div id="comment-form-container" style="padding-left: 10%; padding-top: 7%; width: 60%; float: left;">
+      <form id="comment-form"action="/data" method="POST" style="display: none">
+
+        <label for="comment-box"><h6>Leave a comment:</h6></label>
         <input type="text" name="comment" id="comment-box" autocomplete="off">
         <input type="submit" id="comment-submit">
+        
         <label for="numberOfComments"><h6>Number of comments to be displayed:</h6></label>
         <input type="number" name="numberOfComments" min="1" max="100">
-        <input type="submit" id="number-submit" value="Fetch"></button>
+        <input type="submit" id="number-submit" value="Fetch"></input>
+      
       </form>
       <div id="comment-container" style="margin-bottom: 10%;">
         <ul id="comment-list">
         </ul>
       </div>
     </div>
-    <div style="padding:5%; margin-left: 50%;">
+    <div id="delete-comment" style="padding:5%; margin-left: 50%; display: none">
       <form action='/delete-data' method="POST">
       <input type="submit" value="DELETE ALL COMMENTS">
       </form>

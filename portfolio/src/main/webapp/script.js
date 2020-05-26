@@ -1,99 +1,90 @@
-function addRandomGreeting() {
-  const greetings =
-      ['Hello world!', '¡Hola Mundo!', '你好，世界！', 'Bonjour le monde!'];
-
-  // Pick a random greeting.
-  const greeting = greetings[Math.floor(Math.random() * greetings.length)];
-
-  // Add it to the page.
-  const greetingContainer = document.getElementById('greeting-container');
-  greetingContainer.innerText = greeting;
-}
-var imageIndex = 1;
-var totalimg = 7;
-function changeImage(x) {
-  imageIndex += x;
-  if(imageIndex > totalimg){
-    imageIndex = 1;
-  }
-  if(imageIndex <= 0){
-    imageIndex = totalimg;
-  }
-  const imgUrl = 'images/img' + imageIndex + '.jpg';
-
-  const imgElement = document.createElement('img');
-  imgElement.src = imgUrl;
-
-  const imageContainer = document.getElementById('random-image-container');
-  imageContainer.innerHTML = '';
-  imageContainer.appendChild(imgElement);
-}
-
-function fetchMessage(){
-  console.log('fetching msg from server');
-  const msgFromServer = fetch('/data');
-  msgFromServer.then(convertToText);
-}
-function convertToText(msgFromServer){
-  console.log('convert to text');
-  const msgText = msgFromServer.text();
-  msgText.then(addMsgToPage);
-}
-function addMsgToPage(msgText){
-  console.log('adding to page:' + msgText);
-  const msgContainer = document.getElementById('msgcontainer');
-  msgContainer.innerHTML = msgText;
-}
-function fetchMsgUsingOneFunction(){
-  console.log('arr1');
-  fetch('/data')
-  .then(function(response){
-    console.log('text extracted');
-    return response.text()
-  })
-  .then(function(msgText){
-    console.log('adding to page:' + msgText);
-    const msgContainer = document.getElementById('msgcontainer');
-    msgContainer.innerHTML = msgText;
-  })
-}
 function createListElement(text) {
   const liElement = document.createElement('li');
   liElement.innerText = text;
   return liElement;
 }
-function fetchJson(){
-  console.log('fetching from server')
-  const response = fetch('/data')
-  .then(function(response){
-    console.log('parsing json');
-    return response.json();
-  }).then(function(listItems){
-    console.log('adding to page');
-    const datacontainer = document.getElementById('msgcontainer');
-    // datacontainer.innerHTML = listItems;
-    // datacontainer.innerHTML = JSON.stringify( listItems);
-    const ulElement = document.createElement('ul');
-    ulElement.appendChild(createListElement( listItems.comments[0]) );
-    ulElement.appendChild(createListElement( listItems.comments[1]) );
-    ulElement.appendChild(createListElement( listItems.comments[2]) );
-    datacontainer.appendChild(ulElement);
-  }) 
+function createCommentForm(){
+  const commentForm = document.createElement('form');
+  commentForm.action = "/data";
+  commentForm.method ="POST"
+
+  const label1 = document.createElement('label');
+  label1.for ="comment-box";
+  label1.innerHTML = "<h6>Leave a comment:</h6>";
+  commentForm.appendChild(label1);
+
+  const inputComment = document.createElement('input');
+  inputComment.type = "text";
+  inputComment.id = "comment-box";
+  inputComment.name = "comment";
+  commentForm.appendChild(inputComment);
+
+  const commentSubmit = document.createElement('input');
+  commentSubmit.type = "submit";
+  commentSubmit.id = "comment-submit";
+  commentForm.appendChild(commentSubmit);
+
+  const label2 = document.createElement('label');
+  label2.for = "numberOfComments";
+  label2.innerHTML = "h6>Number of comments to be displayed:</h6>";
+  commentForm.appendChild(label2);
+
+  const inputNum = document.createElement('input');
+  inputNum.type = "number";
+  inputNum.name = "numberOfComments";
+  commentForm.appendChild(inputNum);
+
+  const inpNumSubmit = document.createElement('input');
+  inpNumSubmit.value = "Fetch";
+  commentForm.appendChild(inpNumSubmit);
+
+  const cont = document.getElementById('comment-form-container');
+  cont.appendChild(commentForm);
+
 }
 
-function fetchComments(){
-  // confSubmitButton()
-  // .then(
-  fetch('/data')
+function createLoginElement(correspondingURL, logtext){
+  const contatiner = document.getElementById("log");
+  const loginElem = document.createElement('a');
+  loginElem.href = correspondingURL;
+  loginElem.innerText = logtext;
+  contatiner.appendChild(loginElem);
+}
+
+function showComments(){
+  const userPromise = fetch('/user')
   .then(response => response.json())
-  .then((commentList) => {
-    console.log('adding coments to page');
-    const commentContainer = document.getElementById("comment-list");
-    // commentContainer.innerHTML = JSON.stringify(commentList);
-    commentList.forEach((line) => {
-      commentContainer.appendChild(createListElement(line.statement));
-    });
+  .then((stateText) =>{
+    console.log(JSON.stringify(stateText));
+    if(stateText.state){
+      console.log('user is logged in');
+      createLoginElement(stateText.correspondingURL, "Logout");
+      const formELement = document.getElementById("comment-form");
+      formELement.style.display = "block";
+      const delFormELement = document.getElementById("delete-comment");
+      delFormELement.style.display = "block";
+      fetchComments();
+    }else{
+      createLoginElement(stateText.correspondingURL, "Login here");
+      const formELement = document.getElementById("comment-form");
+      formELement.style.display = "none";
+      const delFormELement = document.getElementById("delete-comment");
+      delFormELement.style.display = "none";
+      console.log('user is not logged in');
+    }
   });
+}
+function fetchComments(){
+    fetch('/data')
+    .then(response => response.json())
+    .then((commentList) => {
+      console.log('adding coments to page');
+      const commentContainer = document.getElementById("comment-list");
+      // commentContainer.innerHTML = JSON.stringify(commentList);
+      commentList.forEach((line) => {
+        commentContainer.appendChild(createListElement(line.user +": " + line.statement));
+      });
+    });
 }
 
 function deleteComments(){
