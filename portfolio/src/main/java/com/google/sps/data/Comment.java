@@ -4,8 +4,9 @@ import java.util.List;
 
 public final class Comment {
   private String statement;
-
-  public Comment( String newComment){
+  private long timestamp;
+  public Comment( String newComment, long timestamp){
     this.statement = newComment;
+    this.timestamp = timestamp;
   }
 }

@@ -36,8 +36,11 @@
         <label for="comment"><h6>Leave a comment:</h6></label>
         <input type="text" name="comment" id="comment-box" autocomplete="off">
         <input type="submit" id="comment-submit">
+        <label for="numberOfComments"><h6>Number of comments to be displayed:</h6></label>
+        <input type="number" name="numberOfComments" min="1" max="100">
+        <input type="submit" id="number-submit" value="Fetch"></button>
       </form>
-      <div id="comment-container">
+      <div id="comment-container" style="margin-bottom: 10%;">
         <ul id="comment-list">
 
         </ul>
