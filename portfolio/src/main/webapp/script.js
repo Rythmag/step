@@ -88,8 +88,9 @@ function fetchComments(){
   .then(response => response.json())
   .then((commentList) => {
     const commentContainer = document.getElementById("comment-list");
-    commentList.comments.forEach((line) => {
-      commentContainer.appendChild(createListElement(line));
+    // commentContainer.innerHTML = JSON.stringify(commentList);
+    commentList.forEach((line) => {
+      commentContainer.appendChild(createListElement(line.statement));
     });
   });
 }
