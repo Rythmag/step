@@ -31,7 +31,7 @@
       <img src="images/me.jpg" class="circular">
       rythmag@noogler.google.com
     </div>
-    <div style="padding-left: 10%; padding-top: 7%;">
+    <div style="padding-left: 10%; padding-top: 7%; width: 60%; float: left;">
       <form action="/data" method="POST">
         <label for="comment"><h6>Leave a comment:</h6></label>
         <input type="text" name="comment" id="comment-box" autocomplete="off">
@@ -42,9 +42,13 @@
       </form>
       <div id="comment-container" style="margin-bottom: 10%;">
         <ul id="comment-list">
-
         </ul>
       </div>
+    </div>
+    <div style="padding:5%; margin-left: 50%;">
+      <form action='/delete-data' method="POST">
+      <input type="submit" value="DELETE ALL COMMENTS">
+      </form>
     </div>
     <div>
       <ul class="navbar" style="bottom: 0px; position: fixed;">

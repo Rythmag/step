@@ -87,12 +87,19 @@ function fetchComments(){
   fetch('/data')
   .then(response => response.json())
   .then((commentList) => {
+    console.log('adding coments to page');
     const commentContainer = document.getElementById("comment-list");
     // commentContainer.innerHTML = JSON.stringify(commentList);
     commentList.forEach((line) => {
       commentContainer.appendChild(createListElement(line.statement));
     });
   });
+}
+
+function deleteComments(){
+  console.log('deleting all comments');
+  fetch('/delete-data')
+  .then(() => fetchComments());
 }
 
 document.addEventListener('DOMContentLoaded', () => {
