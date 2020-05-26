@@ -21,6 +21,12 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.PreparedQuery;
+import com.google.appengine.api.datastore.Query;
+import com.google.appengine.api.datastore.Query.SortDirection;
 /** Servlet that returns some example content. TODO: modify this file to handle comments data */
 
 
@@ -28,9 +34,20 @@ import javax.servlet.http.HttpServletResponse;
 
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
-  List<Comment> comments = new ArrayList<>();
+  
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    Query query = new Query("Comment");
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    PreparedQuery  results = datastore.prepare(query);
+
+    List<Comment> comments = new ArrayList<>();
+    for (Entity entity : results.asIterable()){
+      String statement = (String)entity.getProperty("statement");
+      Comment newComment = new Comment(statement);
+      comments.add(newComment);
+    }
+
     response.setContentType("application/json;");
     Gson gson = new Gson();
     String json = gson.toJson(comments);
@@ -40,9 +57,14 @@ public class DataServlet extends HttpServlet {
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     String comment = getComment(request);
-    Comment newComment = new Comment(comment);
-    comments.add(newComment);
+    // comments.add(newComment);
+
+    Entity commentEntity = new Entity("Comment");
+    commentEntity.setProperty("statement", comment);
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    datastore.put(commentEntity);
     // response.setContentType("text/html");
+
     response.sendRedirect("/index.html");
   }
 
