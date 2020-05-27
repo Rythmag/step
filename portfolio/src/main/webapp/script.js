@@ -99,7 +99,11 @@ function fetchComments(){
 function deleteComments(){
   console.log('deleting all comments');
   fetch('/delete-data')
-  .then(() => fetchComments());
+  .then(response => response.json())
+  .then(() => {
+    fetchComments()
+  });
+  
 }
 
 document.addEventListener('DOMContentLoaded', () => {
