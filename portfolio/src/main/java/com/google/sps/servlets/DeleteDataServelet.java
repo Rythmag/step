@@ -12,6 +12,7 @@ import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.SortDirection;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
+import com.google.gson.Gson;
 
 
 @WebServlet("/delete-data")
@@ -26,6 +27,10 @@ public class DeleteDataServelet extends HttpServlet {
             Key k = entity.getKey();
             datastore.delete(k);
         }
+        // response.setContentType("application/json;");
+        // Gson gson = new Gson();
+        // String json = gson.toJson("true");
+        // response.getWriter().println(json);
         response.sendRedirect("/index.html");
     }
 }

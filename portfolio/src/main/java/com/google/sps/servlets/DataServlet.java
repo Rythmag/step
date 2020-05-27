@@ -69,9 +69,11 @@ public class DataServlet extends HttpServlet {
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     String comment = getComment(request);
     // comments.add(newComment);
-    displayNumber = getNumberOfComments(request);
-    if(displayNumber == -1){
+    int tempNum = getNumberOfComments(request);
+    if(tempNum == -1){
       displayNumber = 10;
+    }else if(tempNum != -2){
+      displayNumber = tempNum;
     }
     if(comment.length() == 0 || !userService.isUserLoggedIn())
     {
@@ -103,7 +105,7 @@ public class DataServlet extends HttpServlet {
       numberOfComments = Integer.parseInt(numString);
     } catch (NumberFormatException e){
       System.err.println("Could not convert to int: " + numString);
-      return -1;
+      return -2;
     }
 
     if(numberOfComments < 0 || numberOfComments > 101 ){

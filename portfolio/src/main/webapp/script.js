@@ -3,45 +3,6 @@ function createListElement(text) {
   liElement.innerText = text;
   return liElement;
 }
-function createCommentForm(){
-  const commentForm = document.createElement('form');
-  commentForm.action = "/data";
-  commentForm.method ="POST"
-
-  const label1 = document.createElement('label');
-  label1.for ="comment-box";
-  label1.innerHTML = "<h6>Leave a comment:</h6>";
-  commentForm.appendChild(label1);
-
-  const inputComment = document.createElement('input');
-  inputComment.type = "text";
-  inputComment.id = "comment-box";
-  inputComment.name = "comment";
-  commentForm.appendChild(inputComment);
-
-  const commentSubmit = document.createElement('input');
-  commentSubmit.type = "submit";
-  commentSubmit.id = "comment-submit";
-  commentForm.appendChild(commentSubmit);
-
-  const label2 = document.createElement('label');
-  label2.for = "numberOfComments";
-  label2.innerHTML = "h6>Number of comments to be displayed:</h6>";
-  commentForm.appendChild(label2);
-
-  const inputNum = document.createElement('input');
-  inputNum.type = "number";
-  inputNum.name = "numberOfComments";
-  commentForm.appendChild(inputNum);
-
-  const inpNumSubmit = document.createElement('input');
-  inpNumSubmit.value = "Fetch";
-  commentForm.appendChild(inpNumSubmit);
-
-  const cont = document.getElementById('comment-form-container');
-  cont.appendChild(commentForm);
-
-}
 
 function createLoginElement(correspondingURL, logtext){
   const contatiner = document.getElementById("log");
@@ -90,7 +51,11 @@ function fetchComments(){
 function deleteComments(){
   console.log('deleting all comments');
   fetch('/delete-data')
-  .then(() => fetchComments());
+  .then(response => response.json())
+  .then(() => {
+    fetchComments()
+  });
+  
 }
 
 document.addEventListener('DOMContentLoaded', () => {
