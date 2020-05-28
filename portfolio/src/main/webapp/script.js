@@ -9,8 +9,8 @@ function addRandomGreeting() {
   const greetingContainer = document.getElementById('greeting-container');
   greetingContainer.innerText = greeting;
 }
-var imageIndex = 1;
-var totalimg = 7;
+const imageIndex = 1;
+const totalimg = 7;
 function changeImage(x) {
   imageIndex += x;
   if(imageIndex > totalimg){
@@ -71,8 +71,6 @@ function fetchJson(){
   }).then(function(listItems){
     console.log('adding to page');
     const datacontainer = document.getElementById('msgcontainer');
-    // datacontainer.innerHTML = listItems;
-    // datacontainer.innerHTML = JSON.stringify( listItems);
     const ulElement = document.createElement('ul');
     ulElement.appendChild(createListElement( listItems.comments[0]) );
     ulElement.appendChild(createListElement( listItems.comments[1]) );
@@ -82,14 +80,11 @@ function fetchJson(){
 }
 
 function fetchComments(){
-  // confSubmitButton()
-  // .then(
   fetch('/data')
   .then(response => response.json())
   .then((commentList) => {
     console.log('adding coments to page');
     const commentContainer = document.getElementById("comment-list");
-    // commentContainer.innerHTML = JSON.stringify(commentList);
     commentList.forEach((line) => {
       commentContainer.appendChild(createListElement(line.statement));
     });

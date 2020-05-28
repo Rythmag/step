@@ -16,9 +16,10 @@ import com.google.appengine.api.datastore.KeyFactory;
 
 @WebServlet("/delete-data")
 public class DeleteDataServelet extends HttpServlet {
+    const String commentEntityType = "Comment"; 
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        Query query = new Query("Comment");
+        Query query = new Query(commentEntityType);
         DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
         PreparedQuery  results = datastore.prepare(query);
 
