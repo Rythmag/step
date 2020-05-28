@@ -15,7 +15,9 @@
 package com.google.sps;
 
 import java.util.Comparator;
-
+import java.util.Collection;
+import java.util.Collections;
+import java.util.*;
 /**
  * Class representing a span of time, enforcing properties (e.g. start comes before end) and
  * providing methods to make ranges easier to work with (e.g. {@code overlaps}).
@@ -25,7 +27,10 @@ public final class TimeRange {
   public static final int END_OF_DAY = getTimeInMinutes(23, 59);
 
   public static final TimeRange WHOLE_DAY = new TimeRange(0, 24 * 60);
-
+  public TimeRange() {
+    this.start = 0;
+    this.duration = 0;
+  }
   /**
    * A comparator for sorting ranges by their start time in ascending order.
    */
@@ -182,5 +187,11 @@ public final class TimeRange {
    */
   public static TimeRange fromStartDuration(int start, int duration) {
     return new TimeRange(start, duration);
+  }
+
+  public static void SortTimeRanges(List<TimeRange> events){
+    // events.sort();
+    Collections.sort(events,ORDER_BY_START);
+    // Collections.sort(events,ORDER_BY_END);
   }
 }
