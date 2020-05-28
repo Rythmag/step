@@ -17,11 +17,9 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.*; 
 import com.google.gson.Gson;
-// import com.google.sps.*;
 
 public final class FindMeetingQuery {
   public Collection<TimeRange> query(Collection<Event> events, MeetingRequest request) {
-    // throw new UnsupportedOperationException("TODO: Implement this method.");
     List<TimeRange> blockedTimes = new ArrayList<>();
     Collection<TimeRange> availableSlots = new ArrayList<>();
     
@@ -39,10 +37,6 @@ public final class FindMeetingQuery {
       if(curr_start > currEvent.end()){
         continue;
       }
-      // TimeRange newTR = TimeRange.fromStartEnd(curr_start, currEvent.start(), true);
-      // if(currEvent.start() - curr_start >= duration && !currEvent.overlaps(newTR)){
-      //   availableSlots.add(newTR);
-      // }
       if(curr_start >= currEvent.start()){
         curr_start = currEvent.end();
         reqEnd = curr_start + duration;
@@ -68,7 +62,6 @@ public final class FindMeetingQuery {
 
   }
   public Collection<TimeRange> query2(Collection<Event> events, MeetingRequest request) {
-    // throw new UnsupportedOperationException("TODO: Implement this method.");
     List<TimeRange> blockedTimes = new ArrayList<>();
     Collection<TimeRange> availableSlots = new ArrayList<>();
     for(Event event : events){
@@ -84,10 +77,6 @@ public final class FindMeetingQuery {
       if(curr_start > currEvent.end()){
         continue;
       }
-      // TimeRange newTR = TimeRange.fromStartEnd(curr_start, currEvent.start(), true);
-      // if(currEvent.start() - curr_start >= duration && !currEvent.overlaps(newTR)){
-      //   availableSlots.add(newTR);
-      // }
       if(curr_start >= currEvent.start()){
         curr_start = currEvent.end();
         reqEnd = curr_start + duration;
@@ -126,9 +115,6 @@ public final class FindMeetingQuery {
         return true;
       }
     }
-    // if(request.getOptionalAttendees() == null){
-    //   System.err.println("-------------------------------------------------- list is empty" );
-    // }
     try{
       Collection<String> optAttendees = optAttendees = request.getOptionalAttendees();
       for(String person : optAttendees){
