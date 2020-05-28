@@ -36,15 +36,19 @@ import com.google.appengine.api.users.UserServiceFactory;
 
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
-  int displayNumber = 10;
+  final int defaultdisplayNumber = 10;
+  final String commentEntityType = "Comment"; 
+  final String statementProperty = "statement";
+  final String timestampProperty = "timestamp";
+  final String userProperty = "user";
+  int displayNumber = defaultdisplayNumber;
   UserService userService = UserServiceFactory.getUserService();
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    Query query = new Query("Comment").addSort("timestamp", SortDirection.DESCENDING);
+    Query query = new Query(commentEntityType).addSort(timestampProperty, SortDirection.DESCENDING);
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     PreparedQuery  results = datastore.prepare(query);
     
-    // int totalComments = query.size();
     int countComments = 0;
     List<Comment> comments = new ArrayList<>();
     for (Entity entity : results.asIterable()){
@@ -52,14 +56,17 @@ public class DataServlet extends HttpServlet {
         break;
       }
       countComments++;
-      String statement = (String)entity.getProperty("statement");
-      long timestamp = (long)entity.getProperty("timestamp");
-      String user = (String)entity.getProperty("user");
+      String statement = (String)entity.getProperty(statementProperty);
+      long timestamp = (long)entity.getProperty(timestampProperty);
+      String user = (String)entity.getProperty(userProperty);
       Comment newComment = new Comment(statement, timestamp, user);
       comments.add(newComment);
     }
 
     response.setContentType("application/json;");
+    if(!userService.isUserLoggedIn()){
+      return;
+    }
     Gson gson = new Gson();
     String json = gson.toJson(comments);
     response.getWriter().println(json);
@@ -67,33 +74,32 @@ public class DataServlet extends HttpServlet {
 
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    String comment = getComment(request);
-    // comments.add(newComment);
+
     displayNumber = getNumberOfComments(request);
     if(displayNumber == -1){
-      displayNumber = 10;
+      displayNumber = defaultdisplayNumber;
     }
-    if(comment.length() == 0 || !userService.isUserLoggedIn())
-    {
+    String comment = getComment(request);
+    //if comment is empty or if user is not logged in
+    if(comment.length() == 0 || !userService.isUserLoggedIn()){
       response.sendRedirect("/index.html");
       return;
     }
-    String user = userService.getCurrentUser().getEmail();
-    Entity commentEntity = new Entity("Comment");
-    commentEntity.setProperty("statement", comment);
-    commentEntity.setProperty("user", user);
+    
+    Entity commentEntity = new Entity(commentEntityType);
+    commentEntity.setProperty(statementProperty, comment);
     long timestamp = System.currentTimeMillis();
-    commentEntity.setProperty("timestamp", timestamp);
+    commentEntity.setProperty(timestampProperty, timestamp);
+    String user = userService.getCurrentUser().getEmail();
+    commentEntity.setProperty(userProperty, user);
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     datastore.put(commentEntity);
-    // response.setContentType("text/html");
 
     response.sendRedirect("/index.html");
   }
 
   private String getComment(HttpServletRequest request){
-    String comment = request.getParameter("comment");
-    return comment;
+    return request.getParameter("comment");
   }
 
   private int getNumberOfComments(HttpServletRequest request){
