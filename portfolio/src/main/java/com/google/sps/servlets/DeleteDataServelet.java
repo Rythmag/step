@@ -35,10 +35,6 @@ public class DeleteDataServelet extends HttpServlet {
             Key k = entity.getKey();
             datastore.delete(k);
         }
-        // response.setContentType("application/json;");
-        // Gson gson = new Gson();
-        // String json = gson.toJson("true");
-        // response.getWriter().println(json);
         response.sendRedirect("/index.html");
     }
 }
