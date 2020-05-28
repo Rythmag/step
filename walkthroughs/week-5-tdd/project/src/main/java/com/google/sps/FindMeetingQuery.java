@@ -16,19 +16,21 @@ package com.google.sps;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.*; 
+import com.google.gson.Gson;
 // import com.google.sps.*;
 
 public final class FindMeetingQuery {
   public Collection<TimeRange> query(Collection<Event> events, MeetingRequest request) {
     // throw new UnsupportedOperationException("TODO: Implement this method.");
     List<TimeRange> blockedTimes = new ArrayList<>();
-    List<TimeRange> availableSlots = new ArrayList<>();
+    Collection<TimeRange> availableSlots = new ArrayList<>();
+    
     for(Event event : events){
       if(affectsTimeRangeByOptionalAttendees(event, request)){
         blockedTimes.add(event.getWhen());
       }
     }
-    
+
     TimeRange.SortTimeRanges(blockedTimes);
     int duration = (int)request.getDuration();
     int curr_start = TimeRange.START_OF_DAY;
@@ -58,6 +60,7 @@ public final class FindMeetingQuery {
       TimeRange newTR = TimeRange.fromStartEnd(curr_start, TimeRange.END_OF_DAY, true);
         availableSlots.add(newTR);
     }
+
     if(availableSlots.size() > 0 || request.getAttendees().size() <= 0){
       return availableSlots;
     }
@@ -67,7 +70,7 @@ public final class FindMeetingQuery {
   public Collection<TimeRange> query2(Collection<Event> events, MeetingRequest request) {
     // throw new UnsupportedOperationException("TODO: Implement this method.");
     List<TimeRange> blockedTimes = new ArrayList<>();
-    List<TimeRange> availableSlots = new ArrayList<>();
+    Collection<TimeRange> availableSlots = new ArrayList<>();
     for(Event event : events){
       if(affectsTimeRange(event, request)){
         blockedTimes.add(event.getWhen());
@@ -116,7 +119,6 @@ public final class FindMeetingQuery {
     return false;
   }
   private boolean affectsTimeRangeByOptionalAttendees(Event event, MeetingRequest request){
-    Collection<String> optAttendees = request.getOptionalAttendees();
     Collection<String> attendees = request.getAttendees();
     Set<String> eventAttenders = event.getAttendees();
     for(String person : attendees){
@@ -124,11 +126,20 @@ public final class FindMeetingQuery {
         return true;
       }
     }
-    for(String person : optAttendees){
-      if(eventAttenders.contains(person)){
-        return true;
+    // if(request.getOptionalAttendees() == null){
+    //   System.err.println("-------------------------------------------------- list is empty" );
+    // }
+    try{
+      Collection<String> optAttendees = optAttendees = request.getOptionalAttendees();
+      for(String person : optAttendees){
+        if(eventAttenders.contains(person)){
+          return true;
+        }
       }
+      return false;
+    }catch(Exception e){
+      System.err.println("getOptionalAttendees() threw: " + e);
+      return false;
     }
-    return false;
   }
 }
