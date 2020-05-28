@@ -16,7 +16,7 @@ import com.google.gson.Gson;
 
 @WebServlet("/delete-data")
 public class DeleteDataServelet extends HttpServlet {
-    const String commentEntityType = "Comment"; 
+    final String commentEntityType = "Comment"; 
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         Query query = new Query(commentEntityType);

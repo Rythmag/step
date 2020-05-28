@@ -34,10 +34,11 @@ import com.google.appengine.api.datastore.Query.SortDirection;
 
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
-  const int defaultdisplayNumber = 10;
-  const String commentEntityType = "Comment"; 
-  const String statementProperty = "statement";
-  const String timestampProperty = "timestamp";
+  final int defaultdisplayNumber = 10;
+  final String statementProperty = "statement";
+  final String commentEntityType = "Comment"; 
+  final String timestampProperty = "timestamp";
+  int displayNumber = defaultdisplayNumber;
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     Query query = new Query(commentEntityType).addSort(timestampProperty, SortDirection.DESCENDING);
@@ -70,7 +71,7 @@ public class DataServlet extends HttpServlet {
     if(displayNumber == -1){
       displayNumber = defaultdisplayNumber;
     }
-    const String comment = getComment(request);
+    final String comment = getComment(request);
     if(comment.length() == 0)
     {
       response.sendRedirect("/index.html");
@@ -79,7 +80,7 @@ public class DataServlet extends HttpServlet {
     
     Entity commentEntity = new Entity(commentEntityType);
     commentEntity.setProperty(statementProperty, comment);
-    const long timestamp = System.currentTimeMillis();
+    final long timestamp = System.currentTimeMillis();
     commentEntity.setProperty(timestampProperty, timestamp);
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     datastore.put(commentEntity);
