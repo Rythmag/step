@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>My gallery</title>
+    <link rel="stylesheet" href="gallery.css">
+    <script src="script.js"></script>
+  </head>
+  <body>
+    <ul class="navbar" style="top: 0;">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="resume.html">Resume</a></li>
+      <li><a href="gallery.html">Gallery</a></li>
+      <li><a href="projects.html">Projects</a></li>
+      <!-- <li><a href="#about">About</a></li> -->
+    </ul>
+    <div id="content">
+      <h1 style="width: 100%;text-align: center;">My gallery</h1>
+      <button onclick="randomizeImage(-1)">&#10094;</button>
+      <button onclick="randomizeImage(1)">&#10095;</button>
+      <div id="random-image-container">
+        <img src="images/img1.jpg">
+      </div>
+    </div>
+  </body>
+</html>
