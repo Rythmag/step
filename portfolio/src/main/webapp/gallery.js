@@ -1,15 +1,8 @@
-var imageIndex = 1;
-var totalimg = 7;
+const imageIndex = 1;
+const totalimg = 7;
 function changeImage(x) {
-  imageIndex += x;
-  if(imageIndex > totalimg){
-    imageIndex = 1;
-  }
-  if(imageIndex <= 0){
-    imageIndex = totalimg;
-  }
-  const imgUrl = 'images/img' + imageIndex + '.jpg';
-
+  imageIndex = (imageIndex + x + totalimg) % totalimg;
+  const imgUrl = 'images/img' + (imageIndex + 1) + '.jpg';
   const imgElement = document.createElement('img');
   imgElement.src = imgUrl;
 
