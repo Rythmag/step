@@ -35,6 +35,7 @@ function showComments(){
     }
   });
 }
+
 function fetchComments(){
     fetch('/data')
     .then(response => response.json())
@@ -51,11 +52,10 @@ function fetchComments(){
 function deleteComments(){
   console.log('deleting all comments');
   fetch('/delete-data')
-  .then(response => response.json())
   .then(() => {
+    location.reload(true);
     fetchComments()
-  });
-  
+  });  
 }
 
 document.addEventListener('DOMContentLoaded', () => {

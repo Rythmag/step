@@ -46,21 +46,23 @@ import com.google.appengine.api.users.UserServiceFactory;
 @WebServlet("/my-form-handler")
 public class FormHandlerServlet extends HttpServlet {
   
+  final imageCommentEntity = "ImageComment";
+  final imgMessageProperty = "message";
+  final imgUrlProperty = "imageUrl";
   UserService userService = UserServiceFactory.getUserService();
 
-  // List<ImageComment> imgComments = new ArrayList<>();
   @Override 
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     
-    Query query = new Query("ImageComment");
+    Query query = new Query(imageCommentEntity);
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     PreparedQuery  results = datastore.prepare(query);
     
     List<ImageComment> imgComments = new ArrayList<>();
     for (Entity entity : results.asIterable()){
-      String message = (String)entity.getProperty("message");
+      String message = (String)entity.getProperty(imgMessageProperty);
       // long timestamp = (long)entity.getProperty("timestamp");
-      String imageUrl = (String)entity.getProperty("imageUrl");
+      String imageUrl = (String)entity.getProperty(imgUrlProperty);
       ImageComment newComment = new ImageComment(imageUrl, message);
       imgComments.add(newComment);
     }
@@ -78,12 +80,9 @@ public class FormHandlerServlet extends HttpServlet {
     String message = request.getParameter("message");
     String imageUrl = getUploadedFileUrl(request, "image");
     
-    // ImageComment imageComment = new ImageComment(imageUrl, message);
-    // imgComments.add(imageComment);
-
-    Entity commentEntity = new Entity("ImageComment");
-    commentEntity.setProperty("imageUrl", imageUrl);
-    commentEntity.setProperty("message", message);
+    Entity commentEntity = new Entity(imageCommentEntity);
+    commentEntity.setProperty(imgUrlProperty, imageUrl);
+    commentEntity.setProperty(imgMessageProperty, message);
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     datastore.put(commentEntity);
 

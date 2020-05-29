@@ -13,13 +13,21 @@ import com.google.appengine.api.datastore.Query.SortDirection;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.gson.Gson;
-
+import com.google.appengine.api.users.UserService;
+import com.google.appengine.api.users.UserServiceFactory;
 
 @WebServlet("/delete-data")
 public class DeleteDataServelet extends HttpServlet {
+    final public String commentEntityType = "Comment";
+    UserService userService = UserServiceFactory.getUserService(); 
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        Query query = new Query("Comment");
+        if(!userService.isUserLoggedIn()){
+            response.sendRedirect("/index.html");
+            System.err.println("Unauthorised user tried to delete data");
+            return;
+        }
+        Query query = new Query(commentEntityType);
         DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
         PreparedQuery  results = datastore.prepare(query);
 
@@ -27,10 +35,6 @@ public class DeleteDataServelet extends HttpServlet {
             Key k = entity.getKey();
             datastore.delete(k);
         }
-        // response.setContentType("application/json;");
-        // Gson gson = new Gson();
-        // String json = gson.toJson("true");
-        // response.getWriter().println(json);
         response.sendRedirect("/index.html");
     }
 }
