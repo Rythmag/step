@@ -42,12 +42,13 @@ public class DataServlet extends HttpServlet {
   final String timestampProperty = "timestamp";
   int displayNumber = defaultdisplayNumber;
   final String userProperty = "user";
-  UserService userService = UserServiceFactory.getUserService();
+  final UserService userService = UserServiceFactory.getUserService();
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     response.setContentType("application/json;");
 
     if(!userService.isUserLoggedIn()){
+      System.err.println("user not logged in");
       return;
     }
     List<Comment> comments = new ArrayList<>();
@@ -83,6 +84,7 @@ public class DataServlet extends HttpServlet {
       response.sendRedirect("/index.html");
       return;
     }
+    //Post request adds a cooment and also decides the number of comments to be fetched for the user.
     displayNumber = getNumberOfComments(request);
     if(displayNumber == -1){
       displayNumber = defaultdisplayNumber;
