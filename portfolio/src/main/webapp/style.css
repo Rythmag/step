@@ -1,15 +1,14 @@
 html, body {
-  height: 100%;
-  margin: 0px;
+  /* height: 100%; */
+  /* margin: 0px; */
+  overflow-y: scroll;
   overflow-wrap: break-word;
   font-size: larger;
   font-family:"Freemono", monospace;
   background-color: #f2dada;
-  resize: none;
-  
 }
 .content {
-  height: 70%;
+  height: 40%;
   padding-left: 10%;
   padding-top: 10%;
   /* padding-right: 10%; */
@@ -43,7 +42,7 @@ background-color: #111;
 }
 
 .navbar  .active {
-background-color: #4CAF50;
+background-color:black;
 }
 
 .circular {

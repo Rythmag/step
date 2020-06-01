@@ -7,15 +7,12 @@
     <script src="script.js"></script>
     
   </head>
-  <body>
+  <body onload="showComments()">
+    <div style="width:100%" id="log">
+    </div>
     <div class="content">
       <h1 id = "vis"></h1>
-      <script>
-        name = prompt("Please tell who you are?","Googler");
-        document.getElementById("vis").innerHTML = "Hey " + name +"! I'm Rythm.";
-      </script>
-      <!-- <h1>Hey! I'm Rythm.</h1> -->
-      <p>
+        <h1>Hey Googler. I'm Rythm.</h1>
         I'm a STEP intern at Google and I'll be working with the Google Apps team.
         I'm CSE sophomore at IIT Kanpur. I like dancing and exploring different genres of music.
         <br>
@@ -29,17 +26,35 @@
     </div>
     <div style="margin-left: 50%; padding-top: 5%;">
       <img src="images/me.jpg" class="circular">
+      <p style="padding-left: 25%;">rythmag@noogler.google.com</p>
+    </div>
+    <div id="comment-form-container" style="padding-left: 10%; padding-top: 7%; width: 60%; float: left;">
+      <form id="comment-form"action="/data" method="POST" style="display: none">
+
+        <label for="comment-box"><h6>Leave a comment:</h6></label>
+        <input type="text" name="comment" id="comment-box" autocomplete="off">
+        <input type="submit" id="comment-submit">
+        
+        <label for="numberOfComments"><h6>Number of comments to be displayed:</h6></label>
+        <input type="number" name="numberOfComments" min="1" max="100" value="10">
+        <input type="submit" id="number-submit" value="Fetch"></input>
+      </form>
+      <div id="comment-container" style="margin-bottom: 10%;">
+        <ul id="comment-list">
+        </ul>
+      </div>
+    </div>
+    <div id="delete-comment" style="padding:5%; margin-left: 50%; display: none">
+      <form action='/delete-data' method="POST">
+      <input type="submit" value="DELETE ALL COMMENTS">
+      </form>
     </div>
     <div>
-      <p>
-        rythmag@noogler.google.com
-      </p>
+      <ul class="navbar" style="bottom: 0px; position: fixed;">
+        <li><a href="https://www.facebook.com/agarwal.rythm">Facebook</a></li>
+        <li><a href="https://www.linkedin.com/in/rythmag/">LinkedIn</a></li>
+        <li><a href="https://github.com/Rythmag/">Github</a></li>
+      </ul>
     </div>
-    <ul class="navbar" style="bottom: 0;">
-      <li><a href="https://www.facebook.com/agarwal.rythm">Facebook</a></li>
-      <li><a href="https://www.linkedin.com/in/rythmag/">LinkedIn</a></li>
-      <li><a href="https://github.com/Rythmag/">Github</a></li>
-      <!-- <li><a href="#about">About</a></li> -->
-    </ul>
   </body>
 </html>
